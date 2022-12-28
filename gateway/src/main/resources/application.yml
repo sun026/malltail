@@ -1,0 +1,98 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: order
+          uri: http://localhost:8081
+          predicates:
+            - Path=/orderManagements/**, 
+        - id: pay
+          uri: http://localhost:8082
+          predicates:
+            - Path=/payments/**, 
+        - id: shop
+          uri: http://localhost:8083
+          predicates:
+            - Path=/shopManagements/**, 
+        - id: shipping
+          uri: http://localhost:8084
+          predicates:
+            - Path=/shippings/**, 
+        - id: delivery
+          uri: http://localhost:8085
+          predicates:
+            - Path=/deliveries/**, 
+        - id: viewPage
+          uri: http://localhost:8086
+          predicates:
+            - Path=, /statusViews/**
+        - id: frontend
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: order
+          uri: http://order:8080
+          predicates:
+            - Path=/orderManagements/**, 
+        - id: pay
+          uri: http://pay:8080
+          predicates:
+            - Path=/payments/**, 
+        - id: shop
+          uri: http://shop:8080
+          predicates:
+            - Path=/shopManagements/**, 
+        - id: shipping
+          uri: http://shipping:8080
+          predicates:
+            - Path=/shippings/**, 
+        - id: delivery
+          uri: http://delivery:8080
+          predicates:
+            - Path=/deliveries/**, 
+        - id: viewPage
+          uri: http://viewPage:8080
+          predicates:
+            - Path=, /statusViews/**
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
